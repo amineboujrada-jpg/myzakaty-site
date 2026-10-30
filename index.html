@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyZakaty — ta zakat calculée chaque jour</title>
+<meta name="description" content="Gère tes comptes et les prêts que tu as faits, et laisse MyZakaty calculer ta zakat selon l'école malikite, somme par somme, au cours du jour de l'or.">
+<meta property="og:title" content="MyZakaty — ta zakat calculée chaque jour">
+<meta property="og:description" content="Comptes, prêts et zakat au même endroit. Gratuit, sur téléphone et ordinateur.">
+<meta property="og:image" content="https://myzakaty.com/icon-512.png">
+<meta name="theme-color" content="#1f6b52">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#1f6b52; --green-deep:#154a39; --mint:#e4efe9; --paper:#f7f8f5;
+  --ink:#16251f; --muted:#56665f; --gold:#e3a53c; --line:#d5ded9;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.6 "Instrument Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* En-tête */
+header{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;text-decoration:none}
+.brand img{width:36px;height:36px;border-radius:10px}
+.btn{display:inline-block;background:var(--green);color:#fff;text-decoration:none;font-weight:600;padding:13px 22px;border-radius:12px;transition:background .15s}
+.btn:hover{background:var(--green-deep)}
+.btn.small{padding:9px 16px;font-size:15px}
+.link{font-weight:600;color:var(--green);text-underline-offset:4px}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding:56px 0 88px}
+.arabic{font-family:Amiri,serif;font-size:clamp(64px,9vw,112px);line-height:1;color:var(--green);display:block;text-align:left;margin-bottom:18px}
+h1{font-size:clamp(36px,5vw,58px);line-height:1.05;letter-spacing:-.025em;font-weight:700;max-width:13ch}
+.lede{font-size:19px;color:var(--muted);max-width:46ch;margin:22px 0 32px}
+.actions{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+
+/* Le hawl, somme par somme */
+.hawl{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px 26px 22px}
+.hawl h2{font-size:16px;font-weight:600}
+.hawl p.sub{font-size:14px;color:var(--muted);margin:4px 0 26px}
+.track{position:relative;height:150px}
+.lot{position:absolute;height:46px;border-radius:12px;background:var(--mint);display:flex;align-items:center;padding:0 14px;font-weight:600;font-size:15px;color:var(--green-deep);transform-origin:left;animation:grow 1.1s cubic-bezier(.2,.7,.2,1) both}
+.lot.a{top:8px;left:0;width:73.75%}
+.lot.b{top:78px;left:22%;width:73.8%;animation-delay:.35s}
+.lot::after{content:"";position:absolute;right:-7px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px #fff}
+.due{position:absolute;right:0;top:100%;margin-top:6px;font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap;animation:fade .4s 1.2s both}
+.lot.b .due{animation-delay:1.55s}
+.axis{display:flex;justify-content:space-between;border-top:1px solid var(--line);margin-top:26px;padding-top:8px;font-size:12.5px;color:var(--muted)}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.lot,.due{animation:none}}
+
+/* Sections */
+section{padding:84px 0;border-top:1px solid var(--line)}
+h2.title{font-size:clamp(28px,3.4vw,38px);line-height:1.15;letter-spacing:-.02em;max-width:22ch;margin-bottom:14px}
+.intro{color:var(--muted);max-width:60ch;margin-bottom:44px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:44px}
+.three h3{font-size:19px;margin-bottom:8px}
+.three p{color:var(--muted)}
+.three .mark{width:40px;height:40px;border-radius:12px;background:var(--mint);display:grid;place-items:center;margin-bottom:18px}
+.three .mark svg{width:22px;height:22px;stroke:var(--green);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* Deux modes */
+.modes{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#fff}
+.modes > div{padding:34px 32px}
+.modes > div + div{border-left:1px solid var(--line);background:var(--green);color:#fff}
+.modes h3{font-size:22px;margin-bottom:6px}
+.modes .for{font-size:15px;opacity:.75;margin-bottom:18px}
+.modes ul{padding-left:20px}
+.modes li{margin:6px 0}
+
+/* Règles */
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px}
+.rule{padding:20px 0;border-bottom:1px solid var(--line)}
+.rule strong{display:block;font-size:17px;margin-bottom:2px}
+.rule span{color:var(--muted)}
+.note{margin-top:32px;background:#fff6e4;border-radius:14px;padding:16px 20px;font-size:15.5px;max-width:72ch}
+
+/* Installer */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+.steps > div{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px}
+.steps h3{font-size:18px;margin-bottom:12px}
+.steps ol{padding-left:20px;color:var(--muted)}
+.steps li{margin:5px 0}
+
+/* FAQ */
+details{border-bottom:1px solid var(--line);max-width:760px}
+summary{cursor:pointer;padding:20px 0;font-weight:600;font-size:18px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--green);font-size:24px;line-height:1;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 0 22px;color:var(--muted);max-width:64ch}
+
+/* Bas de page */
+.closing{background:var(--green);color:#fff;border-radius:28px;padding:56px 48px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;margin:0 0 72px}
+.closing h2{font-size:clamp(26px,3vw,34px);letter-spacing:-.02em;max-width:20ch;line-height:1.15}
+.closing .btn{background:#fff;color:var(--green-deep)}
+.closing .btn:hover{background:var(--mint)}
+footer{padding:28px 0 40px;border-top:1px solid var(--line);font-size:14px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:40px;padding:28px 0 64px}
+  .three,.steps{grid-template-columns:1fr;gap:32px}
+  .modes{grid-template-columns:1fr}
+  .modes > div + div{border-left:0;border-top:1px solid var(--line)}
+  .rules{grid-template-columns:1fr}
+  section{padding:64px 0}
+  .closing{padding:40px 28px}
+  .hawl{padding:24px 18px 18px}
+  .lot{font-size:13.5px;padding:0 10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/"><img src="icon-192.png" alt="">MyZakaty</a>
+    <a class="btn small" href="https://app.myzakaty.com">Ouvrir l'application</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <span class="arabic" lang="ar">زكاة</span>
+        <h1>Ta zakat, calculée jour après jour.</h1>
+        <p class="lede">MyZakaty réunit tes comptes, ton or et l'argent que tu as prêté. Elle suit chaque somme depuis le jour où elle est arrivée et te dit quand sa zakat est due, selon l'école malikite.</p>
+        <div class="actions">
+          <a class="btn" href="https://app.myzakaty.com">Ouvrir l'application</a>
+          <a class="link" href="#installer">L'installer sur ton téléphone</a>
+        </div>
+      </div>
+
+      <figure class="hawl" aria-label="Exemple : 10 000 € reçus le 20 octobre 2026 donnent 250 € de zakat le 9 octobre 2027 ; 2 000 € reçus le 3 février 2027 donnent 50 € le 23 janvier 2028.">
+        <h2>Chaque somme a sa propre année</h2>
+        <p class="sub">Une année lunaire de 354 jours à partir du jour où l'argent arrive.</p>
+        <div class="track" aria-hidden="true">
+          <div class="lot a">10 000 € · reçus le 20 oct.<span class="due">250 € le 9 oct. 2027</span></div>
+          <div class="lot b">2 000 € · reçus le 3 févr.<span class="due">50 € le 23 janv. 2028</span></div>
+        </div>
+        <div class="axis" aria-hidden="true"><span>Oct. 2026</span><span>Avr. 2027</span><span>Oct. 2027</span><span>Févr. 2028</span></div>
+      </figure>
+    </div>
+
+    <section>
+      <h2 class="title">Tout ton argent au même endroit</h2>
+      <p class="intro">Pas besoin de tableur ni de calculs le soir du hawl : tu mets tes soldes à jour, l'application fait le reste.</p>
+      <div class="three">
+        <div>
+          <div class="mark"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div>
+          <h3>Comptes et devises</h3>
+          <p>Ajoute tes comptes, quelle que soit ta banque, en euros, en dirhams ou dans une autre devise. Le total s'affiche en EUR et en MAD au cours du jour.</p>
+        </div>
+        <div>
+          <div class="mark"><svg viewBox="0 0 24 24"><path d="M7 7h10M7 12h10M7 17h6"/><circle cx="18.5" cy="17.5" r="2.5"/></svg></div>
+          <h3>Argent prêté</h3>
+          <p>Note qui te doit quoi, la date de remboursement prévue et le risque que tu estimes. L'application sait si ce prêt compte dans ta zakat cette année.</p>
+        </div>
+        <div>
+          <div class="mark"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <h3>Protégé par un code</h3>
+          <p>Un code à 6 chiffres ou Face ID pour ouvrir l'application, comme une appli de banque. Tes données te suivent du téléphone à l'ordinateur.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="title">Deux façons de calculer, tu choisis</h2>
+      <p class="intro">Tu peux changer de mode à tout moment dans les réglages.</p>
+      <div class="modes">
+        <div>
+          <h3>Une date par an</h3>
+          <p class="for">Pour ceux qui paient leur zakat à une date fixe, par exemple en Ramadan.</p>
+          <ul>
+            <li>Tu choisis ta date dans le calendrier hégirien.</li>
+            <li>Ce jour-là, 2,5 % de tout ce qui est au-dessus du nisab.</li>
+            <li>Simple à suivre, un seul montant par an.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Somme par somme</h3>
+          <p class="for">Pour suivre exactement le hawl de chaque somme reçue.</p>
+          <ul>
+            <li>Chaque rentrée d'argent démarre sa propre année lunaire.</li>
+            <li>Une dépense est retirée de l'argent arrivé le plus récemment.</li>
+            <li>Si ton total passe sous le nisab, les compteurs repartent à zéro.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="title">Les règles appliquées</h2>
+      <p class="intro">Les calculs suivent l'école malikite par défaut. Chaque règle est expliquée dans l'application, à côté du chiffre qu'elle produit.</p>
+      <div class="rules">
+        <div class="rule"><strong>Nisab de 85 g d'or</strong><span>Au cours de l'or du jour, mis à jour automatiquement.</span></div>
+        <div class="rule"><strong>2,5 % par année lunaire</strong><span>Dates calculées dans le calendrier hégirien Umm al-Qura.</span></div>
+        <div class="rule"><strong>Prêt à faible risque, jusqu'à 20 %</strong><span>Compté chaque année, comme l'argent sur un compte.</span></div>
+        <div class="rule"><strong>Prêt à risque, au-delà de 20 %</strong><span>Mis de côté, puis zakat de toute la période au remboursement.</span></div>
+        <div class="rule"><strong>Bijoux portés</strong><span>Non comptés ; l'or d'épargne l'est, selon son carat.</span></div>
+        <div class="rule"><strong>Dettes</strong><span>Déduites de ce qui est soumis à la zakat.</span></div>
+      </div>
+      <p class="note">Ces règles sont en cours de relecture par un savant. En cas de doute sur ta situation, demande conseil à une personne de confiance : l'application t'aide à calculer, elle ne remplace pas un avis religieux.</p>
+    </section>
+
+    <section id="installer">
+      <h2 class="title">L'installer en une minute</h2>
+      <p class="intro">Rien à télécharger depuis un store : l'application s'ajoute directement depuis ton navigateur.</p>
+      <div class="steps">
+        <div>
+          <h3>iPhone</h3>
+          <ol>
+            <li>Ouvre app.myzakaty.com dans Safari.</li>
+            <li>Touche le bouton Partager.</li>
+            <li>Choisis « Sur l'écran d'accueil ».</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Android</h3>
+          <ol>
+            <li>Ouvre app.myzakaty.com dans Chrome.</li>
+            <li>Touche le menu en haut à droite.</li>
+            <li>Choisis « Installer l'application ».</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Ordinateur</h3>
+          <ol>
+            <li>Ouvre app.myzakaty.com dans Chrome ou Edge.</li>
+            <li>Clique l'icône d'installation dans la barre d'adresse.</li>
+            <li>Connecte-toi avec le même compte que sur ton téléphone.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="title">Questions fréquentes</h2>
+      <details><summary>L'application est-elle gratuite ?</summary><p>Oui, elle est gratuite.</p></details>
+      <details><summary>Qui peut voir mes données ?</summary><p>Tes comptes sont liés à ton compte personnel : les autres utilisateurs ne peuvent pas les voir. Sur ton téléphone, un code ou Face ID protège l'ouverture de l'application.</p></details>
+      <details><summary>Est-ce que ça marche sans internet ?</summary><p>Oui. Tu peux consulter et modifier tes comptes hors ligne ; tout se synchronise dès que la connexion revient. Les cours de l'or et des devises se mettent à jour quand tu es connecté.</p></details>
+      <details><summary>Et si je suis une autre école que l'école malikite ?</summary><p>Pour l'instant, l'application calcule uniquement selon l'école malikite.</p></details>
+      <details><summary>L'application verse-t-elle la zakat pour moi ?</summary><p>Non. Elle calcule ce que tu dois et quand, et tu notes ce que tu as versé. Le versement reste entre toi et les bénéficiaires que tu choisis.</p></details>
+    </section>
+
+    <div class="closing">
+      <h2>Ouvre MyZakaty et ajoute ton premier compte.</h2>
+      <a class="btn" href="https://app.myzakaty.com">Ouvrir l'application</a>
+    </div>
+  </main>
+
+  <footer>
+    <span>© 2026 MyZakaty</span>
+    <a href="https://app.myzakaty.com">app.myzakaty.com</a>
+  </footer>
+</div>
+</body>
+</html>
